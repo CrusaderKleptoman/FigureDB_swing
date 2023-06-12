@@ -9,6 +9,7 @@ public class Person {
     private String nickname;
     private String phone;
     private ArrayList<FigureCollection> collection = new ArrayList<>();
+    private FigureCollection baseCollection;
     private String tradeOption;
     private String deliveryOption;
 
@@ -82,5 +83,18 @@ public class Person {
 
     public void setDeliveryOption(String deliveryOption) {
         this.deliveryOption = deliveryOption;
+    }
+
+    public FigureCollection getBaseCollection() {
+        return baseCollection;
+    }
+
+    public void setBaseCollection(FigureCollection baseCollection) {
+        this.baseCollection = baseCollection;
+    }
+
+    @Override
+    public String toString() {
+        return firstName + ' ' + lastName + ", \'" + nickname + "\', " + phone + ", общий размер коллекции = " + baseCollection.getSize();
     }
 }

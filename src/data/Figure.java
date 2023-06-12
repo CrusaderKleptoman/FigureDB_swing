@@ -1,6 +1,7 @@
 package data;
 
 public class Figure {
+    private int ID;
     private String name;
     private String figureType;
     private String material;
@@ -15,7 +16,8 @@ public class Figure {
     public Figure() {
     }
 
-    public Figure(String name, String figureType, String material, String condition, float size, String scale, String manufacturer, String description, String imageName, boolean barterPossibility) {
+    public Figure(int id, String name, String figureType, String material, String condition, float size, String scale, String manufacturer, String description, String imageName, boolean barterPossibility) {
+        this.ID = id;
         this.name = name;
         this.figureType = figureType;
         this.material = material;
@@ -27,7 +29,12 @@ public class Figure {
         this.imageName = imageName;
         this.barterPossibility = barterPossibility;
     }
-
+    public int getID() {
+        return ID;
+    }
+    public void setID(int ID) {
+        this.ID = ID;
+    }
     public String getName() {
         return name;
     }
@@ -106,5 +113,9 @@ public class Figure {
 
     public void setBarterPossibility(boolean barterPossibility) {
         this.barterPossibility = barterPossibility;
+    }
+    public int barterInt(){
+        if(barterPossibility) return 1;
+        else return 0;
     }
 }

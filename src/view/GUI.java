@@ -1,6 +1,7 @@
 package view;
 
 import data.FigureModel;
+import data.Person;
 import data.PersonModel;
 
 import javax.swing.*;
@@ -69,6 +70,10 @@ public class GUI {
 
         JButton buttonSetDB = new JButton("Выбрать файл базы данных");
         JButton buttonChoseCollection = new JButton("Выбрать коллекцию");
+        JButton buttonAddFigure = new JButton("Добавить фигурку");
+        JButton buttonChangeFigure = new JButton("Изменить фигурку");
+        JButton buttonDeleteFigure = new JButton("Удалить фигурку");
+        JButton buttonSaveDB = new JButton("Сохранить базу данных");
 
         buttonSetDB.addActionListener(e -> {
             try
@@ -76,6 +81,8 @@ public class GUI {
                 personModel.setFilePath(filePathInput.getText());
                 personModel.readDB();
                 personModel.fireTableDataChanged();
+                Person person = personModel.getPerson();
+                personInfo.setText(person.toString());
             }
             catch (Exception io)
             {}
@@ -92,6 +99,9 @@ public class GUI {
 
         myButtonPanel.add(buttonSetDB);
         myButtonPanel.add(buttonChoseCollection);
+        myButtonPanel.add(buttonAddFigure);
+        myButtonPanel.add(buttonChangeFigure);
+        myButtonPanel.add(buttonDeleteFigure);
 
         jFrame.add(myButtonPanel, BorderLayout.SOUTH);
     }

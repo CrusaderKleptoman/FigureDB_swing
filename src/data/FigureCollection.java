@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FigureCollection {
+    private int ID;
     private String collectionName;
     private List<Figure> collection = new ArrayList<>();
     private int size = 0;
@@ -29,4 +30,19 @@ public class FigureCollection {
     public void addFigure(Figure figure) { collection.add(figure); size = collection.size();}
     public int getSize() {return collection.size();}
 
+    public List<Figure> getCollection() {
+        return collection;
+    }
+
+    public void setCollection(List<Figure> collection) {
+        this.collection = collection;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
 }

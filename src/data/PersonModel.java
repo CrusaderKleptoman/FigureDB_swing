@@ -4,7 +4,7 @@ import javax.swing.table.AbstractTableModel;
 
 public class PersonModel extends AbstractTableModel {
     private static Person person = new Person();
-    private static String filePath = new String();
+    private static SQLworker figureDB = new SQLworker();
 
     public PersonModel(){
 
@@ -12,14 +12,12 @@ public class PersonModel extends AbstractTableModel {
 
     public PersonModel(String filePath)
     {
-        setFilePath(filePath);
+        figureDB.setFilePath(filePath);
         readDB();
     }
 
     public static void readDB()
     {
-        SQLworker figureDB = new SQLworker();
-        figureDB.setFilePath(filePath);
         person = figureDB.createConnection();
     }
 
@@ -67,12 +65,13 @@ public class PersonModel extends AbstractTableModel {
     public static void setPerson(Person person) {
         PersonModel.person = person;
     }
-
-    public static String getFilePath() {
-        return filePath;
+    public static void setFilePath(String filePath)
+    {
+        figureDB.setFilePath(filePath);
     }
 
-    public static void setFilePath(String filePath) {
-        PersonModel.filePath = filePath;
+    public static String getFilePath()
+    {
+        return figureDB.getFilePath();
     }
 }
