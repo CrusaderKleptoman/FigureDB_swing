@@ -1,6 +1,7 @@
 package data;
 
 import javax.swing.table.AbstractTableModel;
+import java.nio.file.Path;
 
 public class PersonModel extends AbstractTableModel {
     private static Person person = new Person();
@@ -10,7 +11,7 @@ public class PersonModel extends AbstractTableModel {
 
     }
 
-    public PersonModel(String filePath)
+    public PersonModel(Path filePath)
     {
         figureDB.setFilePath(filePath);
         readDB();
@@ -65,13 +66,15 @@ public class PersonModel extends AbstractTableModel {
     public static void setPerson(Person person) {
         PersonModel.person = person;
     }
-    public static void setFilePath(String filePath)
+    public static void setFilePath(Path filePath)
     {
         figureDB.setFilePath(filePath);
     }
 
-    public static String getFilePath()
+    public static Path getFilePath()
     {
         return figureDB.getFilePath();
     }
+
+    public static void setDefaultFilePath() {figureDB.setDefaultFilePath();}
 }

@@ -7,6 +7,8 @@ import data.PersonModel;
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class GUI {
     private static JFrame jFrame;
@@ -69,6 +71,7 @@ public class GUI {
         myButtonPanel.setLayout(new GridLayout(1,0));
 
         JButton buttonSetDB = new JButton("Выбрать файл базы данных");
+        JButton buttonSetDefaultDB = new JButton("Выбрать базовый файл базы данных");
         JButton buttonChoseCollection = new JButton("Выбрать коллекцию");
         JButton buttonAddFigure = new JButton("Добавить фигурку");
         JButton buttonChangeFigure = new JButton("Изменить фигурку");
@@ -78,7 +81,19 @@ public class GUI {
         buttonSetDB.addActionListener(e -> {
             try
             {
-                personModel.setFilePath(filePathInput.getText());
+                personModel.setFilePath(Paths.get(filePathInput.getText()));
+                personModel.readDB();
+                personModel.fireTableDataChanged();
+                Person person = personModel.getPerson();
+                personInfo.setText(person.toString());
+            }
+            catch (Exception io)
+            {}
+        });
+        buttonSetDefaultDB.addActionListener(e -> {
+            try
+            {
+                personModel.setDefaultFilePath();
                 personModel.readDB();
                 personModel.fireTableDataChanged();
                 Person person = personModel.getPerson();
@@ -98,6 +113,7 @@ public class GUI {
         });
 
         myButtonPanel.add(buttonSetDB);
+        myButtonPanel.add(buttonSetDefaultDB);
         myButtonPanel.add(buttonChoseCollection);
         myButtonPanel.add(buttonAddFigure);
         myButtonPanel.add(buttonChangeFigure);
