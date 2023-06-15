@@ -67,6 +67,7 @@ public class PersonModel extends AbstractTableModel {
     public static Person getPerson() {
         return person;
     }
+    public static void addCollection (FigureCollection collection){person.addCollection(collection);}
     public static void setFigure(Figure figure, int id) { person.setFigure(figure, id);}
     public static void setPerson(Person person) {
         PersonModel.person = person;

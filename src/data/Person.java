@@ -66,6 +66,9 @@ public class Person {
     }
 
     public void addCollection(FigureCollection collection) {
+        if(collection.getID()==0){
+            collection.setID(this.collection.get(this.collection.size()-1).getID()+1);
+        }
         this.collection.add(collection);
     }
 

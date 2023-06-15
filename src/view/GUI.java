@@ -1,9 +1,6 @@
 package view;
 
-import data.Figure;
-import data.FigureModel;
-import data.Person;
-import data.PersonModel;
+import data.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -61,8 +58,6 @@ public class GUI {
         tableFigureContents = new Box(BoxLayout.Y_AXIS);
         tableFigureContents.add(new JScrollPane(jTableFigure));
         jFrame.getContentPane().add(tableFigureContents, BorderLayout.CENTER);
-
-
     }
     private static JPanel myButtonPanel;
     private static void ButtonPanel()
@@ -72,6 +67,7 @@ public class GUI {
 
         JButton buttonSetDB = new JButton("Выбрать файл базы данных");
         JButton buttonSetDefaultDB = new JButton("Выбрать базовый файл базы данных");
+        JButton buttonAddCollection = new JButton("Создать коллекцию");
         JButton buttonChoseCollection = new JButton("Выбрать коллекцию");
         JButton buttonAddFigure = new JButton("Добавить фигурку");
         JButton buttonChangeFigure = new JButton("Изменить фигурку");
@@ -115,6 +111,35 @@ public class GUI {
             }
             catch (Exception io)
             {}
+        });
+        buttonAddCollection.addActionListener(e -> {
+            try {
+                JDialog jDialogAddCollection = new JDialog(jFrame, "Создание коллекции", true);
+                JPanel dialogPanel = new JPanel();
+                dialogPanel.setLayout(new GridLayout(0, 1));
+
+                JTextField collectionName = new JTextField("Название");
+                JButton createCollection= new JButton("Создать коллекцию");
+                createCollection.addActionListener(e1 -> {
+                    FigureCollection newCollection = new FigureCollection();
+                    newCollection.setCollectionName(collectionName.getText());
+                    personModel.addCollection(newCollection);
+                    jDialogAddCollection.dispose();
+                });
+
+                dialogPanel.add(new Label("Название коллекции"));
+                dialogPanel.add(collectionName);
+                dialogPanel.add(createCollection);
+
+                jDialogAddCollection.setContentPane(dialogPanel);
+                jDialogAddCollection.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                jDialogAddCollection.setSize(400,110);
+                jDialogAddCollection.setVisible(true);
+                
+                personModel.fireTableDataChanged();
+
+            }
+            catch (Exception io){}
         });
         buttonChoseCollection.addActionListener(e -> {
             try
@@ -280,6 +305,7 @@ public class GUI {
 
         myButtonPanel.add(buttonSetDB);
         myButtonPanel.add(buttonSetDefaultDB);
+        myButtonPanel.add(buttonAddCollection);
         myButtonPanel.add(buttonChoseCollection);
         myButtonPanel.add(buttonAddFigure);
         myButtonPanel.add(buttonChangeFigure);
