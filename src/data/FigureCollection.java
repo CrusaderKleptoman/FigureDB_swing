@@ -25,9 +25,35 @@ public class FigureCollection {
     }
 
     public FigureCollection(List<Figure> collection) {this.collection = collection; size = collection.size();}
-    public Figure getFigure(int id) { return collection.get(id); }
+
+    public Figure getFigure(int id) {return collection.get(id);
+    }
+    public Figure getFigureWithID(int id) {
+        for (Figure figure: collection)
+        {
+            if(figure.getID() == id) return figure;
+        };
+        return null;
+    }
     public void setFigure(int id, Figure figure) {collection.set(id, figure);}
-    public void addFigure(Figure figure) { collection.add(figure); size = collection.size();}
+    public int getLastID()
+    {
+        return collection.get(size-1).getID();
+    }
+    public void addFigure(Figure figure)
+    {
+        if(figure.getID()==0){figure.setID(collection.get(size-1).getID()+1);}
+        collection.add(figure);
+        size = collection.size();}
+    public void deleteFigure(int id) {
+        try {
+            collection.remove(id);
+        }
+        catch (IndexOutOfBoundsException exception)
+        {
+            System.out.println("Выберите фигурку");
+        }
+    }
     public int getSize() {return collection.size();}
 
     public List<Figure> getCollection() {

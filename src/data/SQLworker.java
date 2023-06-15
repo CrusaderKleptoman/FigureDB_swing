@@ -3,7 +3,6 @@ package data;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
-import java.util.HashMap;
 
 public class SQLworker {
     private Connection connection;
@@ -27,7 +26,6 @@ public class SQLworker {
                 person.setFirstName(rs.getString("First_Name"));
                 person.setLastName(rs.getString("Last_Name"));
                 person.setNickname(rs.getString("Nickname"));
-                person.setPhone(rs.getString("Phone"));
                 person.setPhone(rs.getString("Phone"));
                 int collectionId = rs.getInt("Collection");
 
@@ -61,7 +59,7 @@ public class SQLworker {
                 while(rsCollection.next())
                 {
                     int figureId = rsCollection.getInt("Figure");
-                    Figure figure = baseCollection.getFigure(figureId);
+                    Figure figure = baseCollection.getFigureWithID(figureId);
                     collection.addFigure(figure);
                 }
                 psCollection.close();
@@ -104,13 +102,13 @@ public class SQLworker {
             connection = DriverManager.getConnection("jdbc:sqlite:" + filePath);
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
-            String sql = "TRUNCATE TABLE Person";
+            String sql = "DELETE FROM Person";
             statement.executeUpdate(sql);
 
-            sql = "TRUNCATE TABLE Collection";
+            sql = "DELETE FROM Collection";
             statement.executeUpdate(sql);
 
-            sql = "TRUNCATE TABLE figureInfo";
+            sql = "DELETE FROM figureInfo";
             statement.executeUpdate(sql);
 
             sql = "INSERT INTO figureInfo (id_figure, name, type, material, condition, size, scale, manufacturer, description, imageName, barterPosibility) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -142,6 +140,7 @@ public class SQLworker {
                 {
                     psCollection.setInt(1, collection.getID());
                     psCollection.setInt(2, figure.getID());
+                    psCollection.executeUpdate();
                 }
             }
             psCollection.close();
@@ -159,6 +158,7 @@ public class SQLworker {
                 psPerson.setString(6, collection.getCollectionName());
                 psPerson.setString(7, person.getTradeOption());
                 psPerson.setString(8, person.getDeliveryOption());
+                psPerson.executeUpdate();
             }
             psFigure.close();
 

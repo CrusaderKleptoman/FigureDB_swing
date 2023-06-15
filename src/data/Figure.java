@@ -13,8 +13,7 @@ public class Figure {
     private String imageName;
     private boolean barterPossibility;
 
-    public Figure() {
-    }
+    public Figure() {}
 
     public Figure(int id, String name, String figureType, String material, String condition, float size, String scale, String manufacturer, String description, String imageName, boolean barterPossibility) {
         this.ID = id;

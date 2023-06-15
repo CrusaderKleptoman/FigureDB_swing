@@ -7,6 +7,7 @@ public class PersonModel extends AbstractTableModel {
     private static Person person = new Person();
     private static SQLworker figureDB = new SQLworker();
 
+
     public PersonModel(){
 
     }
@@ -20,6 +21,10 @@ public class PersonModel extends AbstractTableModel {
     public static void readDB()
     {
         person = figureDB.createConnection();
+    }
+    public static void saveDB()
+    {
+        figureDB.SaveDB(person);
     }
 
     @Override
@@ -62,7 +67,7 @@ public class PersonModel extends AbstractTableModel {
     public static Person getPerson() {
         return person;
     }
-
+    public static void setFigure(Figure figure, int id) { person.setFigure(figure, id);}
     public static void setPerson(Person person) {
         PersonModel.person = person;
     }
@@ -77,4 +82,6 @@ public class PersonModel extends AbstractTableModel {
     }
 
     public static void setDefaultFilePath() {figureDB.setDefaultFilePath();}
+
+    public static void addFigure(Figure figure) {person.addFigureInBaseCollection(figure);}
 }

@@ -93,6 +93,15 @@ public class Person {
         this.baseCollection = baseCollection;
     }
 
+    public void addFigureInBaseCollection(Figure figure) {
+        baseCollection.addFigure(figure);
+    }
+    public void setFigure(Figure figure, int id)
+    {
+        baseCollection.setFigure(id, figure);
+    }
+    public int getFigureWithLastID() {return baseCollection.getLastID();}
+
     @Override
     public String toString() {
         return firstName + ' ' + lastName + ", \'" + nickname + "\', " + phone + ", общий размер коллекции = " + baseCollection.getSize();
