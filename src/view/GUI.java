@@ -63,12 +63,13 @@ public class GUI {
     private static void ButtonPanel()
     {
         myButtonPanel = new JPanel();
-        myButtonPanel.setLayout(new GridLayout(1,0));
+        myButtonPanel.setLayout(new GridLayout(3,0));
 
         JButton buttonSetDB = new JButton("Выбрать файл базы данных");
         JButton buttonSetDefaultDB = new JButton("Выбрать базовый файл базы данных");
         JButton buttonAddCollection = new JButton("Создать коллекцию");
         JButton buttonChoseCollection = new JButton("Выбрать коллекцию");
+        JButton buttonChoseBaseCollection = new JButton("Вывести все фигуры");
         JButton buttonAddFigure = new JButton("Добавить фигурку");
         JButton buttonChangeFigure = new JButton("Изменить фигурку");
         JButton buttonDeleteFigure = new JButton("Удалить фигурку");
@@ -154,6 +155,18 @@ public class GUI {
             }
             catch (Exception io){}
         });
+        buttonChoseBaseCollection.addActionListener(e -> {
+            try
+            {
+                figureModel.setCollection(personModel.getPerson().getBaseCollection());
+                figureModel.fireTableDataChanged();
+            }
+            catch (NullPointerException io)
+            {
+                System.out.println("Не выбрана коллекция");;
+            }
+            catch (Exception io){}
+        });
         buttonAddFigure.addActionListener(e -> {
             try {
                 JDialog jDialogAddFigure = new JDialog(jFrame, "Создание фигуры", true);
@@ -189,7 +202,7 @@ public class GUI {
                     newFigure.setID(personModel.getPerson().getFigureWithLastID()+1);
 
                     personModel.addFigure(newFigure);
-                    figureModel.addFigure(newFigure);
+                    if(jTablePerson.getSelectedRow()!=-1) figureModel.addFigure(newFigure);
 
                     jDialogAddFigure.dispose();
                 });
@@ -307,6 +320,7 @@ public class GUI {
         myButtonPanel.add(buttonSetDefaultDB);
         myButtonPanel.add(buttonAddCollection);
         myButtonPanel.add(buttonChoseCollection);
+        myButtonPanel.add(buttonChoseBaseCollection);
         myButtonPanel.add(buttonAddFigure);
         myButtonPanel.add(buttonChangeFigure);
         myButtonPanel.add(buttonDeleteFigure);
