@@ -88,6 +88,8 @@ public class GUI {
                 }
                 personModel.readDB();
                 personModel.fireTableDataChanged();
+                figureModel.setCollection(new FigureCollection());
+                figureModel.fireTableDataChanged();
                 Person person = personModel.getPerson();
                 personInfo.setText(person.toString());
             }
@@ -101,12 +103,14 @@ public class GUI {
                 personModel.setDefaultFilePath();
                 if(!Files.exists(personModel.getFilePath()))
                 {
-                    filePathInput.setText("Ошибка, удалена базовая база данных");
+                    filePathInput.setText("Ошибка, отсутствует базовая база данных");
                     filePathInput.setForeground(Color.RED);
-                    throw new Exception("Ошибка, удалена базовая база данных");
+                    throw new Exception("Ошибка, отсутствует базовая база данных");
                 }
                 personModel.readDB();
                 personModel.fireTableDataChanged();
+                figureModel.setCollection(new FigureCollection());
+                figureModel.fireTableDataChanged();
                 Person person = personModel.getPerson();
                 personInfo.setText(person.toString());
             }
@@ -314,7 +318,27 @@ public class GUI {
             figureModel.deleteFigure(jTableFigure.getSelectedRow());
             figureModel.fireTableDataChanged();
         });
-        buttonSaveDB.addActionListener(e -> {personModel.saveDB();});
+        buttonSaveDB.addActionListener(e -> {
+            try {
+                personModel.saveDB();
+                JDialog jDialogSaveBD = new JDialog(jFrame, "Сохранение", true);
+
+                jDialogSaveBD.add(new JLabel("Сохранение успешно"));
+                jDialogSaveBD.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                jDialogSaveBD.setSize(300,100);
+                jDialogSaveBD.setVisible(true);
+            }
+            catch (NullPointerException nullPointerException) {
+                JDialog jDialogSaveBD = new JDialog(jFrame, "Сохранение", true);
+
+                jDialogSaveBD.add(new JLabel("Ошибка сохранения, отсутствуют данные"));
+                jDialogSaveBD.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                jDialogSaveBD.setSize(300,100);
+                jDialogSaveBD.setVisible(true);
+            }
+            catch (Exception exception){}
+
+        });
 
         myButtonPanel.add(buttonSetDB);
         myButtonPanel.add(buttonSetDefaultDB);

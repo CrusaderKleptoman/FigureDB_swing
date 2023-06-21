@@ -49,7 +49,7 @@ public class FigureModel extends AbstractTableModel {
             case 2: return "Тип";
             case 3: return "Материал";
             case 4: return "Состояние";
-            case 5: return "Размер(мм)";
+            case 5: return "Размер";
             case 6: return "Масштаб";
             case 7: return "Производитель";
             case 8: return "Описание";
