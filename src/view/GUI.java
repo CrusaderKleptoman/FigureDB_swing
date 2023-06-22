@@ -20,7 +20,7 @@ public class GUI {
         MyTable();
         ButtonPanel();
         personInfo = new JTextArea("");
-        filePathInput = new JTextField("C:\\dataBase\\Figure.db");
+        filePathInput = new JTextField("Введите путь");
 
         personInfo.setRows(1);
         infoBox = new JPanel();
@@ -60,6 +60,7 @@ public class GUI {
         jFrame.getContentPane().add(tableFigureContents, BorderLayout.CENTER);
     }
     private static JPanel myButtonPanel;
+    private static boolean choseBaseCollection = false;
     private static void ButtonPanel()
     {
         myButtonPanel = new JPanel();
@@ -150,6 +151,7 @@ public class GUI {
             try
             {
                 int id = jTablePerson.getSelectedRow();
+                choseBaseCollection = false;
                 figureModel.setCollection(personModel.getPerson().getCollection().get(id));
                 figureModel.fireTableDataChanged();
             }
@@ -162,6 +164,7 @@ public class GUI {
         buttonChoseBaseCollection.addActionListener(e -> {
             try
             {
+                choseBaseCollection = true;
                 figureModel.setCollection(personModel.getPerson().getBaseCollection());
                 figureModel.fireTableDataChanged();
             }
@@ -206,7 +209,7 @@ public class GUI {
                     newFigure.setID(personModel.getPerson().getFigureWithLastID()+1);
 
                     personModel.addFigure(newFigure);
-                    if(jTablePerson.getSelectedRow()!=-1) figureModel.addFigure(newFigure);
+                    if(!choseBaseCollection) figureModel.addFigure(newFigure);
 
                     jDialogAddFigure.dispose();
                 });
@@ -241,6 +244,7 @@ public class GUI {
                 jDialogAddFigure.setVisible(true);
 
                 figureModel.fireTableDataChanged();
+                personModel.fireTableDataChanged();
             }
             catch (Exception io){}
         });
@@ -317,6 +321,7 @@ public class GUI {
         buttonDeleteFigure.addActionListener(e -> {
             figureModel.deleteFigure(jTableFigure.getSelectedRow());
             figureModel.fireTableDataChanged();
+            personModel.fireTableDataChanged();
         });
         buttonSaveDB.addActionListener(e -> {
             try {

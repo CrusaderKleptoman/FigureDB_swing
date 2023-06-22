@@ -21,6 +21,28 @@ public class SQLworker {
             ResultSet rs = statement.executeQuery("select * from Person");
             FigureCollection baseCollection = new FigureCollection();
 
+            PreparedStatement psBaseCollection = connection.prepareStatement("SELECT * FROM figureInfo");
+            ResultSet rsBaseCollection = psBaseCollection.executeQuery();
+
+            while(rsBaseCollection.next())
+            {
+                Figure figure = new Figure();
+                figure.setID(rsBaseCollection.getInt("id_figure"));
+                figure.setName(rsBaseCollection.getString("name"));
+                figure.setFigureType(rsBaseCollection.getString("type"));
+                figure.setMaterial(rsBaseCollection.getString("material"));
+                figure.setCondition(rsBaseCollection.getString("condition"));
+                figure.setSize(rsBaseCollection.getFloat("size"));
+                figure.setScale(rsBaseCollection.getString("scale"));
+                figure.setManufacturer(rsBaseCollection.getString("manufacturer"));
+                figure.setDescription(rsBaseCollection.getString("description"));
+                figure.setImageName(rsBaseCollection.getString("imageName"));
+                figure.setBarterPossibility(rsBaseCollection.getBoolean("barterPosibility"));
+
+                baseCollection.addFigure(figure);
+            }
+            psBaseCollection.close();
+
             while(rs.next())
             {
                 person.setFirstName(rs.getString("First_Name"));
@@ -28,27 +50,6 @@ public class SQLworker {
                 person.setNickname(rs.getString("Nickname"));
                 person.setPhone(rs.getString("Phone"));
                 int collectionId = rs.getInt("Collection");
-
-                PreparedStatement psBaseCollection = connection.prepareStatement("SELECT * FROM figureInfo");
-                ResultSet rsBaseCollection = psBaseCollection.executeQuery();
-
-                while(rsBaseCollection.next())
-                {
-                    Figure figure = new Figure();
-                    figure.setID(rsBaseCollection.getInt("id_figure"));
-                    figure.setName(rsBaseCollection.getString("name"));
-                    figure.setFigureType(rsBaseCollection.getString("type"));
-                    figure.setMaterial(rsBaseCollection.getString("material"));
-                    figure.setCondition(rsBaseCollection.getString("condition"));
-                    figure.setSize(rsBaseCollection.getFloat("size"));
-                    figure.setScale(rsBaseCollection.getString("scale"));
-                    figure.setDescription(rsBaseCollection.getString("description"));
-                    figure.setImageName(rsBaseCollection.getString("imageName"));
-                    figure.setBarterPossibility(rsBaseCollection.getBoolean("barterPosibility"));
-
-                    baseCollection.addFigure(figure);
-                }
-                psBaseCollection.close();
 
                 PreparedStatement psCollection = connection.prepareStatement("SELECT * FROM Collection WHERE id_collection = ?");
                 psCollection.setInt(1, collectionId);
@@ -160,7 +161,7 @@ public class SQLworker {
                 psPerson.setString(8, person.getDeliveryOption());
                 psPerson.executeUpdate();
             }
-            psFigure.close();
+            psPerson.close();
 
         }
         catch(SQLException e)
